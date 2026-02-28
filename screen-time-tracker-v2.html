@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🎮 Screen Time Tracker</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg: #0f1b2d;
+    --card: #1a2d45;
+    --card2: #1e3452;
+    --accent: #f7c948;
+    --accent2: #ff6b6b;
+    --green: #4ecb71;
+    --blue: #4db8ff;
+    --purple: #b47dff;
+    --text: #e8f0fe;
+    --muted: #7a9cc4;
+    --radius: 20px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 16px 16px 40px;
+    background-image:
+      radial-gradient(ellipse at 15% 15%, rgba(77,184,255,0.09) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 85%, rgba(247,201,72,0.07) 0%, transparent 50%);
+  }
+
+  h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: var(--accent);
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
+  .subtitle { text-align: center; color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
+  .sync-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .sync-dot.synced { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .sync-dot.syncing { background: var(--accent); animation: pulse 1s ease infinite; }
+  .sync-dot.error { background: var(--accent2); }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+    background: var(--card);
+    border-radius: 14px;
+    padding: 6px;
+  }
+  .tab {
+    flex: 1;
+    padding: 10px 4px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab.active { background: var(--accent); color: #1a1a1a; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 14px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .card-title {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  /* SETUP SCREEN */
+  #setupScreen {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .setup-icon { font-size: 4rem; margin-bottom: 16px; }
+  .setup-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .setup-desc { color: var(--muted); font-size: 0.9rem; text-align: center; margin-bottom: 28px; line-height: 1.5; }
+
+  .setup-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 24px;
+    width: 100%;
+    max-width: 360px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .code-input-wrap { position: relative; margin-bottom: 16px; }
+  .code-input {
+    width: 100%;
+    background: var(--card2);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    padding: 14px 50px 14px 16px;
+    outline: none;
+    letter-spacing: 8px;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+  .code-input:focus { border-color: var(--blue); }
+  .code-input::placeholder { letter-spacing: 4px; font-size: 1.2rem; color: rgba(255,255,255,0.15); }
+
+  .who-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .who-btn {
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid rgba(255,255,255,0.1);
+    background: var(--card2);
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .who-btn:hover { border-color: var(--blue); color: var(--blue); }
+  .who-btn.selected { border-color: var(--accent); color: var(--accent); background: rgba(247,201,72,0.1); }
+
+  .setup-hint { font-size: 0.78rem; color: var(--muted); text-align: center; line-height: 1.5; }
+
+  /* TIMER */
+  .timer-circle-wrap { display: flex; justify-content: center; margin: 10px 0 20px; }
+  .timer-circle { position: relative; width: 200px; height: 200px; }
+  .timer-circle svg { transform: rotate(-90deg); width: 200px; height: 200px; }
+  .timer-circle svg circle { fill: none; stroke-width: 14; stroke-linecap: round; }
+  .timer-bg { stroke: rgba(255,255,255,0.07); }
+  .timer-fg { stroke: var(--green); stroke-dasharray: 565; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear, stroke 0.5s; }
+  .timer-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .timer-time { font-family: 'Fredoka One', cursive; font-size: 2.8rem; color: var(--text); line-height: 1; }
+  .timer-label { font-size: 0.75rem; color: var(--muted); margin-top: 4px; font-weight: 600; }
+  .timer-emoji { font-size: 1.6rem; margin-top: 4px; animation: bounce 1s ease infinite; }
+
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+  @keyframes pulse  { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .btn-row { display: flex; gap: 10px; margin-bottom: 12px; }
+  .btn {
+    flex: 1; padding: 13px; border: none; border-radius: 14px;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.95rem;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .btn:active { transform: scale(0.96); }
+  .btn-start   { background: var(--green); color: #fff; }
+  .btn-pause   { background: var(--accent); color: #1a1a1a; }
+  .btn-stop    { background: var(--accent2); color: #fff; }
+  .btn-primary { background: var(--blue); color: #fff; }
+  .btn-purple  { background: var(--purple); color: #fff; }
+  .btn-ghost   { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid rgba(255,255,255,0.1); }
+  .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .btn-full { width: 100%; margin-bottom: 10px; }
+
+  .status-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px; }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); transition: background 0.3s; }
+  .status-dot.running { background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 1.2s ease infinite; }
+  .status-dot.paused  { background: var(--accent); }
+  .status-text { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+
+  .window-alert {
+    border-radius: 12px; padding: 11px 14px; font-size: 0.82rem; font-weight: 700; margin-bottom: 12px;
+  }
+  .window-alert.warn { background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--accent2); }
+
+  .today-used { font-family: 'Fredoka One', cursive; font-size: 2.2rem; color: var(--blue); text-align: center; }
+  .today-of { text-align: center; color: var(--muted); font-size: 0.78rem; margin-top: 2px; font-weight: 700; }
+  .progress-bar-bg { background: rgba(255,255,255,0.06); border-radius: 10px; height: 14px; margin-top: 10px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--blue), var(--green)); transition: width 0.5s ease; }
+
+  /* WHO logged */
+  .who-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .who-tag.mom  { background: rgba(180,125,255,0.2); color: var(--purple); }
+  .who-tag.dad  { background: rgba(77,184,255,0.2);  color: var(--blue); }
+
+  /* LOG */
+  .log-entry { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .log-entry:last-child { border-bottom: none; }
+  .log-date { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+  .log-dur  { font-family: 'Fredoka One', cursive; font-size: 1.05rem; color: var(--accent); }
+  .log-empty { text-align: center; color: var(--muted); font-size: 0.9rem; padding: 20px 0; }
+
+  .weekly-bar-wrap { margin-top: 4px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .bar-day { font-size: 0.72rem; color: var(--muted); width: 28px; font-weight: 700; }
+  .bar-bg  { flex: 1; height: 11px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; background: var(--blue); transition: width 0.5s ease; }
+  .bar-val { font-size: 0.72rem; color: var(--muted); width: 34px; text-align: right; font-weight: 700; }
+
+  /* SETTINGS */
+  label { font-size: 0.82rem; color: var(--muted); display: block; margin-bottom: 5px; font-weight: 700; }
+  input[type="number"], input[type="time"], input[type="text"] {
+    width: 100%;
+    background: var(--card2);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 11px 13px;
+    margin-bottom: 13px;
+    outline: none;
+  }
+  input:focus { border-color: var(--blue); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
+  .toggle-label { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+  .toggle-sub   { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+  .toggle {
+    width: 46px; height: 25px; background: rgba(255,255,255,0.1);
+    border-radius: 13px; cursor: pointer; position: relative; transition: background 0.2s; border: none; flex-shrink: 0;
+  }
+  .toggle::after { content:''; position:absolute; top:3px;left:3px; width:19px;height:19px; border-radius:50%; background:#fff; transition:transform 0.2s; }
+  .toggle.on { background: var(--green); }
+  .toggle.on::after { transform: translateX(21px); }
+  .save-msg { text-align: center; font-size: 0.8rem; color: var(--green); margin-top: 8px; height: 18px; }
+
+  /* NOTIF */
+  .notif {
+    position: fixed; top: 16px; left: 50%;
+    transform: translateX(-50%) translateY(-130px);
+    background: var(--accent2); color: #fff;
+    padding: 13px 22px; border-radius: 14px;
+    font-weight: 800; font-size: 0.95rem;
+    z-index: 999; transition: transform 0.4s cubic-bezier(.3,1.4,.5,1);
+    text-align: center; max-width: 310px; width: 90%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .notif.show { transform: translateX(-50%) translateY(0); }
+
+  /* KID MODE */
+  .kid-overlay {
+    display: none; position: fixed; inset: 0;
+    background: #0a1520; z-index: 500;
+    flex-direction: column; align-items: center; justify-content: center; padding: 30px;
+  }
+  .kid-overlay.show { display: flex; }
+  .kid-emoji-row { font-size: 3rem; margin-bottom: 16px; display: flex; gap: 12px; }
+  .kid-emoji-row span { animation: bounce 1s ease infinite; }
+  .kid-emoji-row span:nth-child(2) { animation-delay: 0.15s; }
+  .kid-emoji-row span:nth-child(3) { animation-delay: 0.3s; }
+  .kid-circle { position: relative; width: 280px; height: 280px; margin-bottom: 16px; }
+  .kid-circle svg { transform: rotate(-90deg); width: 280px; height: 280px; }
+  .kid-circle svg circle { fill: none; stroke-width: 18; stroke-linecap: round; }
+  .kid-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .kid-big-timer { font-family: 'Fredoka One', cursive; font-size: 5.5rem; color: var(--text); line-height: 1; }
+  .kid-label { font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--muted); margin-top: 6px; }
+  .hide-kid-btn { margin-top: 18px; padding: 12px 28px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: var(--muted); font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.88rem; cursor: pointer; }
+
+  .family-code-display {
+    background: var(--card2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    letter-spacing: 6px;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .code-hint { font-size: 0.75rem; color: var(--muted); text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="notif" id="notif"></div>
+
+<!-- KID MODE -->
+<div class="kid-overlay" id="kidOverlay">
+  <div class="kid-emoji-row">
+    <span id="kidE1">🎮</span><span id="kidE2">⭐</span><span id="kidE3">🎮</span>
+  </div>
+  <div class="kid-circle">
+    <svg viewBox="0 0 280 280">
+      <circle class="timer-bg" cx="140" cy="140" r="120"/>
+      <circle class="timer-fg" id="kidArc" cx="140" cy="140" r="120" stroke-dasharray="754" stroke-dashoffset="0"/>
+    </svg>
+    <div class="kid-inner">
+      <div class="kid-big-timer" id="kidTimerDisplay">00:00</div>
+      <div class="kid-label">left to play!</div>
+    </div>
+  </div>
+  <button class="hide-kid-btn" onclick="hideKidMode()">👆 Parent View</button>
+</div>
+
+<!-- SETUP SCREEN -->
+<div id="setupScreen">
+  <div class="setup-icon">🎮</div>
+  <div class="setup-title">Screen Time Tracker</div>
+  <div class="setup-desc">Enter your family code to connect.<br>Both parents use the same code to share logs.</div>
+  <div class="setup-card">
+    <label style="text-align:center;display:block;margin-bottom:10px">Family Code (make one up — 4 to 8 characters)</label>
+    <div class="code-input-wrap">
+      <input class="code-input" type="text" id="codeInput" maxlength="8" placeholder="e.g. 1234" autocomplete="off" autocapitalize="none" spellcheck="false">
+    </div>
+    <label style="text-align:center;display:block;margin-bottom:10px">Who are you?</label>
+    <div class="who-row">
+      <button class="who-btn" id="whoMom" onclick="selectWho('Mom')">👩 Mom</button>
+      <button class="who-btn" id="whoDad" onclick="selectWho('Dad')">👨 Dad</button>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="connectFamily()" style="margin-bottom:12px">Connect →</button>
+    <div class="setup-hint">First time? Just pick a code and share it with your spouse. You'll both enter the same one.</div>
+  </div>
+</div>
+
+<!-- MAIN APP (hidden until connected) -->
+<div id="mainApp" style="display:none">
+  <h1>🎮 Screen Time</h1>
+  <div class="subtitle">Nintendo Switch Tracker</div>
+  <div class="sync-badge">
+    <div class="sync-dot" id="syncDot"></div>
+    <span id="syncLabel">Not connected</span>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('timer',event)">Timer</button>
+    <button class="tab" onclick="showTab('log',event)">Log</button>
+    <button class="tab" onclick="showTab('settings',event)">Settings</button>
+  </div>
+
+  <!-- TIMER TAB -->
+  <div class="panel active" id="tab-timer">
+    <div id="windowAlertCard" style="display:none">
+      <div class="window-alert warn" id="windowAlert"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Today's Session</div>
+      <div class="status-row">
+        <div class="status-dot" id="statusDot"></div>
+        <div class="status-text" id="statusText">Ready to start</div>
+      </div>
+      <div class="timer-circle-wrap">
+        <div class="timer-circle">
+          <svg viewBox="0 0 200 200">
+            <circle class="timer-bg" cx="100" cy="100" r="90"/>
+            <circle class="timer-fg" id="timerArc" cx="100" cy="100" r="90"/>
+          </svg>
+          <div class="timer-inner">
+            <div class="timer-time" id="timerDisplay">00:00</div>
+            <div class="timer-label">remaining</div>
+            <div class="timer-emoji" id="timerEmoji">🎮</div>
+          </div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-start" id="btnStart" onclick="startTimer()">▶ Start</button>
+        <button class="btn btn-pause" id="btnPause" onclick="pauseTimer()" disabled>⏸ Pause</button>
+        <button class="btn btn-stop"  id="btnStop"  onclick="stopTimer()"  disabled>■ Stop</button>
+      </div>
+      <button class="btn btn-purple btn-full" onclick="showKidMode()">👶 Kid View</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Today's Usage</div>
+      <div class="today-used" id="todayUsed">0m</div>
+      <div class="today-of" id="todayOf">of 60 min daily limit</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="todayBar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- LOG TAB -->
+  <div class="panel" id="tab-log">
+    <div class="card">
+      <div class="card-title">This Week</div>
+      <div class="weekly-bar-wrap" id="weeklyBars"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Session History <span style="color:var(--muted);font-size:0.7rem;font-weight:400;text-transform:none;letter-spacing:0">(all family)</span></div>
+      <div id="logList"><div class="log-empty">No sessions yet.</div></div>
+    </div>
+    <button class="btn btn-ghost btn-full" onclick="syncNow()">🔄 Refresh Log</button>
+    <button class="btn btn-ghost btn-full" style="margin-top:0" onclick="clearLog()">🗑 Clear All History</button>
+  </div>
+
+  <!-- SETTINGS TAB -->
+  <div class="panel" id="tab-settings">
+    <div class="card">
+      <div class="card-title">Daily Limit</div>
+      <label>Max screen time per day (minutes)</label>
+      <input type="number" id="setLimit" min="5" max="480" value="60">
+    </div>
+
+    <div class="card">
+      <div class="card-title">Allowed Time Window</div>
+      <div class="toggle-row">
+        <div><div class="toggle-label">Enforce Time Window</div><div class="toggle-sub">Block timer outside set hours</div></div>
+        <button class="toggle" id="toggleWindow" onclick="toggleSetting('windowEnabled')"></button>
+      </div>
+      <div class="row2">
+        <div><label>Start</label><input type="time" id="setWindowStart" value="15:00"></div>
+        <div><label>End</label><input type="time" id="setWindowEnd" value="17:00"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Alerts</div>
+      <div class="toggle-row">
+        <div><div class="toggle-label">5-Minute Warning</div><div class="toggle-sub">Alert when 5 min left</div></div>
+        <button class="toggle" id="toggleWarn5" onclick="toggleSetting('warn5')"></button>
+      </div>
+      <div class="toggle-row">
+        <div><div class="toggle-label">Time's Up Alert</div><div class="toggle-sub">Alert when limit reached</div></div>
+        <button class="toggle" id="toggleWarnDone" onclick="toggleSetting('warnDone')"></button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Family Account</div>
+      <div class="family-code-display" id="displayCode">----</div>
+      <div class="code-hint" id="displayWho"></div>
+      <div style="margin-top:14px">
+        <button class="btn btn-ghost btn-full" onclick="switchAccount()">Switch Account / Change Code</button>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-full" onclick="saveSettings()">💾 Save Settings</button>
+    <div class="save-msg" id="saveMsg"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  STORAGE HELPERS  (window.storage = shared cloud)
+// ══════════════════════════════════════════
+const LS_KEY   = 'stt_local_v3';
+const SHARED   = true;   // shorthand for passing to storage
+
+// Thin wrapper — falls back gracefully if storage unavailable
+async function cloudGet(key) {
+  try { return await window.storage.get(key, SHARED); } catch(e) { return null; }
+}
+async function cloudSet(key, val) {
+  try { return await window.storage.set(key, JSON.stringify(val), SHARED); } catch(e) { return null; }
+}
+async function cloudDel(key) {
+  try { return await window.storage.delete(key, SHARED); } catch(e) { return null; }
+}
+
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+let local = {            // saved in localStorage (device-specific)
+  familyCode: '',
+  whoAmI: '',
+  settings: {
+    limitMin: 60, windowEnabled: false, windowStart: '15:00', windowEnd: '17:00',
+    warn5: true, warnDone: true
+  }
+};
+
+let sharedData = {       // from cloud
+  sessions: [],          // [{id, date, startTs, endTs, durSec, who}]
+  today: { date: '', usedSec: 0 }
+};
+
+// Timer runtime
+let timerInterval  = null;
+let sessionStart   = null;
+let sessionPaused  = false;
+let sessionElapsed = 0;
+let warned5 = false;
+let warnedDone = false;
+
+// ══════════════════════════════════════════
+//  SETUP / AUTH
+// ══════════════════════════════════════════
+let selectedWho = '';
+
+function selectWho(who) {
+  selectedWho = who;
+  document.getElementById('whoMom').classList.toggle('selected', who === 'Mom');
+  document.getElementById('whoDad').classList.toggle('selected', who === 'Dad');
+}
+
+async function connectFamily() {
+  const code = document.getElementById('codeInput').value.trim().toUpperCase();
+  if (!code || code.length < 4) { showNotif('⚠️ Enter at least 4 characters'); return; }
+  if (!selectedWho)              { showNotif('⚠️ Select Mom or Dad'); return; }
+
+  local.familyCode = code;
+  local.whoAmI     = selectedWho;
+  saveLocal();
+
+  showApp();
+  await syncNow();
+}
+
+function showApp() {
+  document.getElementById('setupScreen').style.display = 'none';
+  document.getElementById('mainApp').style.display     = 'block';
+  document.getElementById('displayCode').textContent   = local.familyCode;
+  document.getElementById('displayWho').textContent    = `Logged in as ${local.whoAmI}`;
+  renderSettings();
+  renderTodayCard();
+}
+
+function switchAccount() {
+  if (!confirm('Switch account? Your current settings will be saved.')) return;
+  stopTimerSilent();
+  local.familyCode = '';
+  local.whoAmI     = '';
+  saveLocal();
+  document.getElementById('mainApp').style.display     = 'none';
+  document.getElementById('setupScreen').style.display = 'flex';
+  document.getElementById('codeInput').value = '';
+  selectedWho = '';
+  document.getElementById('whoMom').classList.remove('selected');
+  document.getElementById('whoDad').classList.remove('selected');
+}
+
+// ══════════════════════════════════════════
+//  CLOUD SYNC
+// ══════════════════════════════════════════
+function cloudKey()      { return `stt:${local.familyCode}:sessions`; }
+function cloudTodayKey() { return `stt:${local.familyCode}:today`; }
+
+function setSyncStatus(s) {
+  const dot   = document.getElementById('syncDot');
+  const label = document.getElementById('syncLabel');
+  if (s === 'syncing') { dot.className='sync-dot syncing'; label.textContent='Syncing…'; }
+  else if (s === 'ok') { dot.className='sync-dot synced';  label.textContent=`Synced · Family Code: ${local.familyCode}`; }
+  else                 { dot.className='sync-dot error';   label.textContent='Sync error — working offline'; }
+}
+
+async function syncNow() {
+  if (!local.familyCode) return;
+  setSyncStatus('syncing');
+  try {
+    // Pull sessions
+    const sr = await cloudGet(cloudKey());
+    if (sr && sr.value) {
+      const remote = JSON.parse(sr.value);
+      sharedData.sessions = remote;
+    }
+    // Pull today
+    const tr = await cloudGet(cloudTodayKey());
+    if (tr && tr.value) {
+      const remToday = JSON.parse(tr.value);
+      if (remToday.date === todayStr()) {
+        sharedData.today = remToday;
+      } else {
+        sharedData.today = { date: todayStr(), usedSec: 0 };
+      }
+    }
+    setSyncStatus('ok');
+    renderTodayCard();
+    renderLog();
+  } catch(e) {
+    setSyncStatus('error');
+  }
+}
+
+async function pushSession(session) {
+  setSyncStatus('syncing');
+  try {
+    // Re-pull first to avoid stomping
+    const sr = await cloudGet(cloudKey());
+    let sessions = [];
+    if (sr && sr.value) sessions = JSON.parse(sr.value);
+    // Deduplicate by id
+    const existing = sessions.find(s => s.id === session.id);
+    if (!existing) sessions.unshift(session);
+    // Keep 180 sessions max
+    sessions = sessions.slice(0, 180);
+    sharedData.sessions = sessions;
+    await cloudSet(cloudKey(), sessions);
+
+    // Push today
+    const tr = await cloudGet(cloudTodayKey());
+    let today = { date: todayStr(), usedSec: 0 };
+    if (tr && tr.value) {
+      const t = JSON.parse(tr.value);
+      if (t.date === todayStr()) today = t;
+    }
+    today.usedSec = (today.usedSec || 0) + session.durSec;
+    sharedData.today = today;
+    await cloudSet(cloudTodayKey(), today);
+
+    setSyncStatus('ok');
+    renderLog();
+    renderTodayCard();
+  } catch(e) {
+    setSyncStatus('error');
+    // Keep locally anyway
+    sharedData.sessions.unshift(session);
+    sharedData.today.usedSec = (sharedData.today.usedSec || 0) + session.durSec;
+  }
+}
+
+async function clearLog() {
+  if (!confirm('Clear ALL shared history for this family? Both phones will lose the log.')) return;
+  try {
+    await cloudSet(cloudKey(), []);
+    await cloudSet(cloudTodayKey(), { date: todayStr(), usedSec: 0 });
+    sharedData.sessions = [];
+    sharedData.today    = { date: todayStr(), usedSec: 0 };
+    renderLog();
+    renderTodayCard();
+    showNotif('🗑 History cleared');
+  } catch(e) { showNotif('⚠️ Could not clear — try again'); }
+}
+
+// ══════════════════════════════════════════
+//  TIMER
+// ══════════════════════════════════════════
+function startTimer() {
+  if (!checkWindow()) return;
+  if (isOverLimit()) { showNotif('⛔ Daily limit already reached!'); return; }
+  sessionStart   = Date.now();
+  sessionPaused  = false;
+  sessionElapsed = 0;
+  warned5        = false;
+  warnedDone     = false;
+  timerInterval  = setInterval(tick, 1000);
+  setStatus('running');
+  document.getElementById('btnStart').disabled = true;
+  document.getElementById('btnPause').disabled = false;
+  document.getElementById('btnStop').disabled  = false;
+}
+
+function pauseTimer() {
+  if (sessionPaused) {
+    sessionStart  = Date.now() - sessionElapsed * 1000;
+    sessionPaused = false;
+    timerInterval = setInterval(tick, 1000);
+    document.getElementById('btnPause').textContent = '⏸ Pause';
+    setStatus('running');
+  } else {
+    sessionPaused = true;
+    clearInterval(timerInterval);
+    document.getElementById('btnPause').textContent = '▶ Resume';
+    setStatus('paused');
+  }
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  const dur = sessionElapsed;
+  if (dur > 3) {
+    const session = {
+      id:      Date.now().toString(),
+      date:    todayStr(),
+      startTs: new Date(sessionStart).toISOString(),
+      endTs:   new Date().toISOString(),
+      durSec:  dur,
+      who:     local.whoAmI || 'Parent'
+    };
+    pushSession(session);
+  }
+  sessionElapsed = 0;
+  sessionStart   = null;
+  sessionPaused  = false;
+  setStatus('idle');
+  document.getElementById('btnStart').disabled  = false;
+  document.getElementById('btnPause').disabled  = true;
+  document.getElementById('btnStop').disabled   = true;
+  document.getElementById('btnPause').textContent = '⏸ Pause';
+  const limitSec = local.settings.limitMin * 60;
+  updateTimerDisplay(Math.max(0, limitSec - (sharedData.today.usedSec || 0)), limitSec);
+}
+
+function stopTimerSilent() {
+  clearInterval(timerInterval);
+  timerInterval  = null;
+  sessionElapsed = 0;
+  sessionStart   = null;
+  sessionPaused  = false;
+}
+
+function tick() {
+  sessionElapsed = Math.floor((Date.now() - sessionStart) / 1000);
+  const limitSec     = local.settings.limitMin * 60;
+  const totalUsedSec = (sharedData.today.usedSec || 0) + sessionElapsed;
+  const remaining    = Math.max(0, limitSec - totalUsedSec);
+
+  updateTimerDisplay(remaining, limitSec);
+  updateKidDisplay(remaining, limitSec);
+  document.getElementById('todayUsed').textContent = fmtMinSec(totalUsedSec);
+  updateTodayBar(totalUsedSec, limitSec);
+
+  if (!warned5 && remaining <= 300 && remaining > 0 && local.settings.warn5) {
+    warned5 = true;
+    showNotif('⚠️ Only 5 minutes left!');
+  }
+  if (!warnedDone && remaining <= 0 && local.settings.warnDone) {
+    warnedDone = true;
+    showNotif("🛑 Time's up! Screen time is done for today.");
+    stopTimer();
+  }
+}
+
+function updateTimerDisplay(rem, lim) {
+  document.getElementById('timerDisplay').textContent = fmtMMSS(rem);
+  const arc  = document.getElementById('timerArc');
+  const circ = 565;
+  const pct  = lim > 0 ? rem / lim : 0;
+  arc.style.strokeDashoffset = circ * (1 - pct);
+  arc.style.stroke = rem <= 300 ? 'var(--accent2)' : rem <= 600 ? 'var(--accent)' : 'var(--green)';
+  document.getElementById('timerEmoji').textContent = rem <= 300 ? '😬' : '🎮';
+}
+
+function updateKidDisplay(rem, lim) {
+  document.getElementById('kidTimerDisplay').textContent = fmtMMSS(rem);
+  const arc  = document.getElementById('kidArc');
+  const circ = 754;
+  const pct  = lim > 0 ? rem / lim : 0;
+  arc.style.strokeDashoffset = circ * (1 - pct);
+  arc.style.stroke = rem <= 300 ? 'var(--accent2)' : 'var(--green)';
+  const stressed = rem <= 300;
+  document.getElementById('kidE1').textContent = stressed ? '😬' : '🎮';
+  document.getElementById('kidE3').textContent = stressed ? '😬' : '🎮';
+}
+
+// ══════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════
+function renderTodayCard() {
+  const limitSec = local.settings.limitMin * 60;
+  const usedSec  = sharedData.today.date === todayStr() ? (sharedData.today.usedSec || 0) : 0;
+  document.getElementById('todayUsed').textContent = fmtMinSec(usedSec);
+  document.getElementById('todayOf').textContent   = `of ${local.settings.limitMin} min daily limit`;
+  updateTodayBar(usedSec, limitSec);
+  updateTimerDisplay(Math.max(0, limitSec - usedSec), limitSec);
+}
+
+function updateTodayBar(used, lim) {
+  const pct = Math.min(100, lim > 0 ? (used / lim) * 100 : 0);
+  const bar  = document.getElementById('todayBar');
+  bar.style.width = pct + '%';
+  bar.style.background = pct >= 100 ? 'var(--accent2)' : pct >= 80
+    ? 'linear-gradient(90deg,var(--accent),var(--accent2))'
+    : 'linear-gradient(90deg,var(--blue),var(--green))';
+}
+
+function renderLog() {
+  // Session list
+  const list = document.getElementById('logList');
+  const sess = sharedData.sessions || [];
+  if (!sess.length) {
+    list.innerHTML = '<div class="log-empty">No sessions yet. Start a timer!</div>';
+  } else {
+    list.innerHTML = sess.slice(0, 40).map(s => {
+      const d   = new Date(s.startTs);
+      const day = d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+      const t   = d.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
+      const who = s.who || 'Parent';
+      const tagClass = who === 'Mom' ? 'mom' : 'dad';
+      return `<div class="log-entry">
+        <div>
+          <div style="font-weight:700;font-size:0.88rem">${day} <span class="who-tag ${tagClass}">${who}</span></div>
+          <div class="log-date">${t}</div>
+        </div>
+        <div class="log-dur">${fmtHMS(s.durSec)}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // Weekly bars
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const now  = new Date();
+  const week = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now); d.setDate(d.getDate() - i);
+    week.push({ label: days[d.getDay()], date: d.toISOString().slice(0,10) });
+  }
+  const byDate = {};
+  sess.forEach(s => {
+    const d = s.date || s.startTs?.slice(0,10);
+    byDate[d] = (byDate[d] || 0) + s.durSec;
+  });
+  const td = todayStr();
+  byDate[td] = Math.max(byDate[td] || 0, sharedData.today.usedSec || 0);
+  const limitSec = local.settings.limitMin * 60;
+  const maxSec   = Math.max(...week.map(w => byDate[w.date] || 0), limitSec, 1);
+
+  document.getElementById('weeklyBars').innerHTML = week.map(w => {
+    const sec = byDate[w.date] || 0;
+    const pct = (sec / maxSec) * 100;
+    const isToday = w.date === td;
+    return `<div class="bar-row">
+      <div class="bar-day" style="${isToday?'color:var(--accent)':''}">${w.label}</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${isToday?'var(--accent)':'var(--blue)'}"></div></div>
+      <div class="bar-val">${sec>0?fmtHMS(sec):'—'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+//  SETTINGS
+// ══════════════════════════════════════════
+function renderSettings() {
+  const s = local.settings;
+  document.getElementById('setLimit').value       = s.limitMin;
+  document.getElementById('setWindowStart').value = s.windowStart;
+  document.getElementById('setWindowEnd').value   = s.windowEnd;
+  setToggle('toggleWindow',  s.windowEnabled);
+  setToggle('toggleWarn5',   s.warn5);
+  setToggle('toggleWarnDone',s.warnDone);
+  document.getElementById('displayCode').textContent = local.familyCode || '----';
+  document.getElementById('displayWho').textContent  = local.whoAmI ? `Logged in as ${local.whoAmI}` : '';
+}
+
+function setToggle(id, val) { document.getElementById(id).classList.toggle('on', !!val); }
+
+function toggleSetting(key) {
+  local.settings[key] = !local.settings[key];
+  saveLocal();
+  renderSettings();
+}
+
+function saveSettings() {
+  local.settings.limitMin    = parseInt(document.getElementById('setLimit').value) || 60;
+  local.settings.windowStart = document.getElementById('setWindowStart').value;
+  local.settings.windowEnd   = document.getElementById('setWindowEnd').value;
+  saveLocal();
+  renderTodayCard();
+  const msg = document.getElementById('saveMsg');
+  msg.textContent   = '✅ Saved!';
+  msg.style.opacity = 1;
+  setTimeout(() => { msg.style.opacity = 0; }, 2000);
+}
+
+// ══════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════
+function todayStr() { return new Date().toISOString().slice(0,10); }
+
+function fmtMMSS(sec) {
+  sec = Math.max(0, Math.floor(sec));
+  return `${Math.floor(sec/60).toString().padStart(2,'0')}:${(sec%60).toString().padStart(2,'0')}`;
+}
+function fmtMinSec(sec) {
+  sec = Math.floor(sec);
+  if (sec < 60) return `${sec}s`;
+  const m = Math.floor(sec/60), s = sec%60;
+  return s ? `${m}m ${s}s` : `${m}m`;
+}
+function fmtHMS(sec) {
+  const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60);
+  return h > 0 ? `${h}h ${m}m` : `${m}m`;
+}
+
+function isOverLimit() {
+  return (sharedData.today.usedSec || 0) >= local.settings.limitMin * 60;
+}
+
+function checkWindow() {
+  const s = local.settings;
+  if (!s.windowEnabled) { hideWindowAlert(); return true; }
+  const now  = new Date();
+  const cur  = now.getHours()*60 + now.getMinutes();
+  const [sh,sm] = s.windowStart.split(':').map(Number);
+  const [eh,em] = s.windowEnd.split(':').map(Number);
+  if (cur >= sh*60+sm && cur < eh*60+em) { hideWindowAlert(); return true; }
+  showWindowAlert(s.windowStart, s.windowEnd);
+  return false;
+}
+
+function showWindowAlert(st, en) {
+  const el = document.getElementById('windowAlert');
+  el.textContent = `⛔ Only allowed between ${fmt12(st)} – ${fmt12(en)}.`;
+  document.getElementById('windowAlertCard').style.display = 'block';
+  el.style.display = 'block';
+}
+function hideWindowAlert() { document.getElementById('windowAlertCard').style.display = 'none'; }
+
+function fmt12(t) {
+  const [h,m] = t.split(':').map(Number);
+  return `${h%12||12}:${m.toString().padStart(2,'0')} ${h>=12?'PM':'AM'}`;
+}
+
+function setStatus(s) {
+  document.getElementById('statusDot').className  = `status-dot${s==='running'?' running':s==='paused'?' paused':''}`;
+  document.getElementById('statusText').textContent = s==='running'?'Playing now…':s==='paused'?'Paused':'Ready to start';
+}
+
+let notifTimeout = null;
+function showNotif(msg) {
+  const el = document.getElementById('notif');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(notifTimeout);
+  notifTimeout = setTimeout(() => el.classList.remove('show'), 4000);
+  if (navigator.vibrate) navigator.vibrate([200,100,200]);
+}
+
+function showKidMode() {
+  document.getElementById('kidOverlay').classList.add('show');
+  const lim = local.settings.limitMin * 60;
+  const used = (sharedData.today.usedSec||0) + sessionElapsed;
+  updateKidDisplay(Math.max(0,lim-used), lim);
+}
+function hideKidMode() { document.getElementById('kidOverlay').classList.remove('show'); }
+
+// ══════════════════════════════════════════
+//  LOCAL STORAGE
+// ══════════════════════════════════════════
+function saveLocal() {
+  localStorage.setItem(LS_KEY, JSON.stringify(local));
+}
+function loadLocal() {
+  try {
+    const d = JSON.parse(localStorage.getItem(LS_KEY));
+    if (d) {
+      local.familyCode = d.familyCode || '';
+      local.whoAmI     = d.whoAmI     || '';
+      local.settings   = { ...local.settings, ...(d.settings||{}) };
+    }
+  } catch(e) {}
+}
+
+// ══════════════════════════════════════════
+//  TABS
+// ══════════════════════════════════════════
+function showTab(name, e) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if (e && e.target) e.target.classList.add('active');
+  if (name === 'log') { syncNow(); }
+  if (name === 'settings') renderSettings();
+}
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+loadLocal();
+
+if (local.familyCode && local.whoAmI) {
+  showApp();
+  syncNow();
+} else {
+  document.getElementById('setupScreen').style.display = 'flex';
+}
+
+// Auto-sync every 90 seconds while app is open
+setInterval(() => {
+  if (local.familyCode && !timerInterval) syncNow();
+}, 90000);
+
+// Window check every minute
+setInterval(() => {
+  if (!timerInterval) checkWindow();
+}, 60000);
+</script>
+</body>
+</html>
