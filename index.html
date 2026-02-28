@@ -34,289 +34,173 @@
       radial-gradient(ellipse at 85% 85%, rgba(247,201,72,0.07) 0%, transparent 50%);
   }
 
-  h1 {
-    font-family: 'Fredoka One', cursive;
-    font-size: 2rem;
-    color: var(--accent);
-    text-align: center;
-    letter-spacing: 1px;
-    margin-bottom: 2px;
-  }
-  .subtitle { text-align: center; color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
+  h1 { font-family:'Fredoka One',cursive; font-size:2rem; color:var(--accent); text-align:center; letter-spacing:1px; margin-bottom:2px; }
+  .subtitle { text-align:center; color:var(--muted); font-size:0.85rem; margin-bottom:6px; }
+
   .sync-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin-bottom: 16px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--muted);
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    margin-bottom:16px; font-size:0.78rem; font-weight:700; color:var(--muted);
   }
-  .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
-  .sync-dot.synced { background: var(--green); box-shadow: 0 0 6px var(--green); }
-  .sync-dot.syncing { background: var(--accent); animation: pulse 1s ease infinite; }
-  .sync-dot.error { background: var(--accent2); }
+  .sync-dot { width:8px; height:8px; border-radius:50%; background:var(--muted); flex-shrink:0; }
+  .sync-dot.synced  { background:var(--green); box-shadow:0 0 6px var(--green); }
+  .sync-dot.syncing { background:var(--accent); animation:pulse 1s ease infinite; }
+  .sync-dot.error   { background:var(--accent2); }
 
-  .tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 20px;
-    background: var(--card);
-    border-radius: 14px;
-    padding: 6px;
-  }
+  .tabs { display:flex; gap:6px; margin-bottom:20px; background:var(--card); border-radius:14px; padding:6px; }
   .tab {
-    flex: 1;
-    padding: 10px 4px;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    color: var(--muted);
-    font-family: 'Nunito', sans-serif;
-    font-weight: 700;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.2s;
+    flex:1; padding:10px 4px; border:none; border-radius:10px; background:transparent;
+    color:var(--muted); font-family:'Nunito',sans-serif; font-weight:700; font-size:0.8rem; cursor:pointer; transition:all 0.2s;
   }
-  .tab.active { background: var(--accent); color: #1a1a1a; }
+  .tab.active { background:var(--accent); color:#1a1a1a; }
 
-  .panel { display: none; }
-  .panel.active { display: block; }
+  .panel { display:none; }
+  .panel.active { display:block; }
 
-  .card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 14px;
-    border: 1px solid rgba(255,255,255,0.05);
-  }
-  .card-title {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--muted);
-    margin-bottom: 12px;
-    font-weight: 700;
-  }
+  .card { background:var(--card); border-radius:var(--radius); padding:20px; margin-bottom:14px; border:1px solid rgba(255,255,255,0.05); }
+  .card-title { font-size:0.72rem; text-transform:uppercase; letter-spacing:2px; color:var(--muted); margin-bottom:12px; font-weight:700; }
 
-  /* SETUP SCREEN */
+  /* SETUP */
   #setupScreen {
-    min-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    min-height:90vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; padding:20px;
   }
-  .setup-icon { font-size: 4rem; margin-bottom: 16px; }
-  .setup-title {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.8rem;
-    color: var(--accent);
-    text-align: center;
-    margin-bottom: 8px;
-  }
-  .setup-desc { color: var(--muted); font-size: 0.9rem; text-align: center; margin-bottom: 28px; line-height: 1.5; }
+  .setup-icon  { font-size:4rem; margin-bottom:16px; }
+  .setup-title { font-family:'Fredoka One',cursive; font-size:1.8rem; color:var(--accent); text-align:center; margin-bottom:8px; }
+  .setup-desc  { color:var(--muted); font-size:0.88rem; text-align:center; margin-bottom:28px; line-height:1.6; max-width:320px; }
+  .setup-card  { background:var(--card); border-radius:var(--radius); padding:24px; width:100%; max-width:360px; border:1px solid rgba(255,255,255,0.07); }
 
-  .setup-card {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 24px;
-    width: 100%;
-    max-width: 360px;
-    border: 1px solid rgba(255,255,255,0.07);
-  }
-
-  .code-input-wrap { position: relative; margin-bottom: 16px; }
   .code-input {
-    width: 100%;
-    background: var(--card2);
-    border: 2px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    color: var(--text);
-    font-family: 'Fredoka One', cursive;
-    font-size: 2rem;
-    padding: 14px 50px 14px 16px;
-    outline: none;
-    letter-spacing: 8px;
-    text-align: center;
-    transition: border-color 0.2s;
+    width:100%; background:var(--card2); border:2px solid rgba(255,255,255,0.1);
+    border-radius:12px; color:var(--text); font-family:'Fredoka One',cursive;
+    font-size:2rem; padding:14px 16px; outline:none; letter-spacing:8px;
+    text-align:center; transition:border-color 0.2s; margin-bottom:16px;
   }
-  .code-input:focus { border-color: var(--blue); }
-  .code-input::placeholder { letter-spacing: 4px; font-size: 1.2rem; color: rgba(255,255,255,0.15); }
+  .code-input:focus { border-color:var(--blue); }
+  .code-input::placeholder { letter-spacing:3px; font-size:1.1rem; color:rgba(255,255,255,0.15); }
 
-  .who-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 16px;
-  }
+  .who-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
   .who-btn {
-    padding: 14px;
-    border-radius: 12px;
-    border: 2px solid rgba(255,255,255,0.1);
-    background: var(--card2);
-    color: var(--muted);
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
+    padding:14px; border-radius:12px; border:2px solid rgba(255,255,255,0.1);
+    background:var(--card2); color:var(--muted); font-family:'Nunito',sans-serif;
+    font-weight:800; font-size:0.95rem; cursor:pointer; transition:all 0.2s; text-align:center;
   }
-  .who-btn:hover { border-color: var(--blue); color: var(--blue); }
-  .who-btn.selected { border-color: var(--accent); color: var(--accent); background: rgba(247,201,72,0.1); }
-
-  .setup-hint { font-size: 0.78rem; color: var(--muted); text-align: center; line-height: 1.5; }
+  .who-btn.selected { border-color:var(--accent); color:var(--accent); background:rgba(247,201,72,0.1); }
+  .setup-hint { font-size:0.76rem; color:var(--muted); text-align:center; line-height:1.5; margin-top:10px; }
 
   /* TIMER */
-  .timer-circle-wrap { display: flex; justify-content: center; margin: 10px 0 20px; }
-  .timer-circle { position: relative; width: 200px; height: 200px; }
-  .timer-circle svg { transform: rotate(-90deg); width: 200px; height: 200px; }
-  .timer-circle svg circle { fill: none; stroke-width: 14; stroke-linecap: round; }
-  .timer-bg { stroke: rgba(255,255,255,0.07); }
-  .timer-fg { stroke: var(--green); stroke-dasharray: 565; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear, stroke 0.5s; }
-  .timer-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .timer-time { font-family: 'Fredoka One', cursive; font-size: 2.8rem; color: var(--text); line-height: 1; }
-  .timer-label { font-size: 0.75rem; color: var(--muted); margin-top: 4px; font-weight: 600; }
-  .timer-emoji { font-size: 1.6rem; margin-top: 4px; animation: bounce 1s ease infinite; }
+  .timer-circle-wrap { display:flex; justify-content:center; margin:10px 0 20px; }
+  .timer-circle { position:relative; width:200px; height:200px; }
+  .timer-circle svg { transform:rotate(-90deg); width:200px; height:200px; }
+  .timer-circle svg circle { fill:none; stroke-width:14; stroke-linecap:round; }
+  .timer-bg { stroke:rgba(255,255,255,0.07); }
+  .timer-fg { stroke:var(--green); stroke-dasharray:565; stroke-dashoffset:0; transition:stroke-dashoffset 1s linear, stroke 0.5s; }
+  .timer-inner { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .timer-time  { font-family:'Fredoka One',cursive; font-size:2.8rem; color:var(--text); line-height:1; }
+  .timer-label { font-size:0.75rem; color:var(--muted); margin-top:4px; font-weight:600; }
+  .timer-emoji { font-size:1.6rem; margin-top:4px; animation:bounce 1s ease infinite; }
 
   @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
   @keyframes pulse  { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  @keyframes spin   { to{transform:rotate(360deg)} }
 
-  .btn-row { display: flex; gap: 10px; margin-bottom: 12px; }
+  .btn-row { display:flex; gap:10px; margin-bottom:12px; }
   .btn {
-    flex: 1; padding: 13px; border: none; border-radius: 14px;
-    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.95rem;
-    cursor: pointer; transition: all 0.15s;
+    flex:1; padding:13px; border:none; border-radius:14px;
+    font-family:'Nunito',sans-serif; font-weight:800; font-size:0.95rem; cursor:pointer; transition:all 0.15s;
   }
-  .btn:active { transform: scale(0.96); }
-  .btn-start   { background: var(--green); color: #fff; }
-  .btn-pause   { background: var(--accent); color: #1a1a1a; }
-  .btn-stop    { background: var(--accent2); color: #fff; }
-  .btn-primary { background: var(--blue); color: #fff; }
-  .btn-purple  { background: var(--purple); color: #fff; }
-  .btn-ghost   { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid rgba(255,255,255,0.1); }
-  .btn:disabled { opacity: 0.3; cursor: not-allowed; }
-  .btn-full { width: 100%; margin-bottom: 10px; }
+  .btn:active { transform:scale(0.96); }
+  .btn-start   { background:var(--green);   color:#fff; }
+  .btn-pause   { background:var(--accent);  color:#1a1a1a; }
+  .btn-stop    { background:var(--accent2); color:#fff; }
+  .btn-primary { background:var(--blue);    color:#fff; }
+  .btn-purple  { background:var(--purple);  color:#fff; }
+  .btn-ghost   { background:rgba(255,255,255,0.06); color:var(--text); border:1px solid rgba(255,255,255,0.1); }
+  .btn:disabled { opacity:0.3; cursor:not-allowed; }
+  .btn-full { width:100%; margin-bottom:10px; }
 
-  .status-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px; }
-  .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); transition: background 0.3s; }
-  .status-dot.running { background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 1.2s ease infinite; }
-  .status-dot.paused  { background: var(--accent); }
-  .status-text { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+  .status-row { display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:14px; }
+  .status-dot { width:10px; height:10px; border-radius:50%; background:var(--muted); transition:background 0.3s; }
+  .status-dot.running { background:var(--green); box-shadow:0 0 8px var(--green); animation:pulse 1.2s ease infinite; }
+  .status-dot.paused  { background:var(--accent); }
+  .status-text { font-size:0.85rem; color:var(--muted); font-weight:600; }
 
-  .window-alert {
-    border-radius: 12px; padding: 11px 14px; font-size: 0.82rem; font-weight: 700; margin-bottom: 12px;
+  .window-alert { border-radius:12px; padding:11px 14px; font-size:0.82rem; font-weight:700; margin-bottom:12px; }
+  .window-alert.warn { background:rgba(255,107,107,0.15); border:1px solid rgba(255,107,107,0.3); color:var(--accent2); }
+
+  .today-used { font-family:'Fredoka One',cursive; font-size:2.2rem; color:var(--blue); text-align:center; }
+  .today-of   { text-align:center; color:var(--muted); font-size:0.78rem; margin-top:2px; font-weight:700; }
+  .progress-bar-bg   { background:rgba(255,255,255,0.06); border-radius:10px; height:14px; margin-top:10px; overflow:hidden; }
+  .progress-bar-fill { height:100%; border-radius:10px; background:linear-gradient(90deg,var(--blue),var(--green)); transition:width 0.5s ease; }
+
+  .who-tag { display:inline-block; padding:2px 8px; border-radius:6px; font-size:0.7rem; font-weight:800; margin-left:6px; vertical-align:middle; }
+  .who-tag.mom { background:rgba(180,125,255,0.2); color:var(--purple); }
+  .who-tag.dad { background:rgba(77,184,255,0.2);  color:var(--blue); }
+
+  .log-entry { display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .log-entry:last-child { border-bottom:none; }
+  .log-date { font-size:0.78rem; color:var(--muted); margin-top:2px; }
+  .log-dur  { font-family:'Fredoka One',cursive; font-size:1.05rem; color:var(--accent); white-space:nowrap; }
+  .log-empty { text-align:center; color:var(--muted); font-size:0.9rem; padding:24px 0; }
+
+  .weekly-bar-wrap { margin-top:4px; }
+  .bar-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+  .bar-day { font-size:0.72rem; color:var(--muted); width:28px; font-weight:700; }
+  .bar-bg  { flex:1; height:11px; background:rgba(255,255,255,0.06); border-radius:6px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:6px; background:var(--blue); transition:width 0.5s ease; }
+  .bar-val { font-size:0.72rem; color:var(--muted); width:34px; text-align:right; font-weight:700; }
+
+  label { font-size:0.82rem; color:var(--muted); display:block; margin-bottom:5px; font-weight:700; }
+  input[type="number"], input[type="time"] {
+    width:100%; background:var(--card2); border:1px solid rgba(255,255,255,0.1);
+    border-radius:10px; color:var(--text); font-family:'Nunito',sans-serif;
+    font-weight:700; font-size:1rem; padding:11px 13px; margin-bottom:13px; outline:none;
   }
-  .window-alert.warn { background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--accent2); }
+  input:focus { border-color:var(--blue); }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .toggle-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:13px; }
+  .toggle-label { font-size:0.88rem; font-weight:700; color:var(--text); }
+  .toggle-sub   { font-size:0.72rem; color:var(--muted); margin-top:2px; }
+  .toggle { width:46px; height:25px; background:rgba(255,255,255,0.1); border-radius:13px; cursor:pointer; position:relative; transition:background 0.2s; border:none; flex-shrink:0; }
+  .toggle::after { content:''; position:absolute; top:3px; left:3px; width:19px; height:19px; border-radius:50%; background:#fff; transition:transform 0.2s; }
+  .toggle.on { background:var(--green); }
+  .toggle.on::after { transform:translateX(21px); }
+  .save-msg { text-align:center; font-size:0.8rem; color:var(--green); margin-top:8px; height:18px; }
 
-  .today-used { font-family: 'Fredoka One', cursive; font-size: 2.2rem; color: var(--blue); text-align: center; }
-  .today-of { text-align: center; color: var(--muted); font-size: 0.78rem; margin-top: 2px; font-weight: 700; }
-  .progress-bar-bg { background: rgba(255,255,255,0.06); border-radius: 10px; height: 14px; margin-top: 10px; overflow: hidden; }
-  .progress-bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--blue), var(--green)); transition: width 0.5s ease; }
+  .family-code-display { background:var(--card2); border-radius:10px; padding:10px 14px; font-family:'Fredoka One',cursive; font-size:1.4rem; letter-spacing:6px; color:var(--accent); text-align:center; margin-bottom:8px; }
+  .code-hint { font-size:0.75rem; color:var(--muted); text-align:center; }
 
-  /* WHO logged */
-  .who-tag {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-size: 0.7rem;
-    font-weight: 800;
-    margin-left: 6px;
-    vertical-align: middle;
-  }
-  .who-tag.mom  { background: rgba(180,125,255,0.2); color: var(--purple); }
-  .who-tag.dad  { background: rgba(77,184,255,0.2);  color: var(--blue); }
-
-  /* LOG */
-  .log-entry { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-  .log-entry:last-child { border-bottom: none; }
-  .log-date { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
-  .log-dur  { font-family: 'Fredoka One', cursive; font-size: 1.05rem; color: var(--accent); }
-  .log-empty { text-align: center; color: var(--muted); font-size: 0.9rem; padding: 20px 0; }
-
-  .weekly-bar-wrap { margin-top: 4px; }
-  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .bar-day { font-size: 0.72rem; color: var(--muted); width: 28px; font-weight: 700; }
-  .bar-bg  { flex: 1; height: 11px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 6px; background: var(--blue); transition: width 0.5s ease; }
-  .bar-val { font-size: 0.72rem; color: var(--muted); width: 34px; text-align: right; font-weight: 700; }
-
-  /* SETTINGS */
-  label { font-size: 0.82rem; color: var(--muted); display: block; margin-bottom: 5px; font-weight: 700; }
-  input[type="number"], input[type="time"], input[type="text"] {
-    width: 100%;
-    background: var(--card2);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px;
-    color: var(--text);
-    font-family: 'Nunito', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 11px 13px;
-    margin-bottom: 13px;
-    outline: none;
-  }
-  input:focus { border-color: var(--blue); }
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
-  .toggle-label { font-size: 0.88rem; font-weight: 700; color: var(--text); }
-  .toggle-sub   { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
-  .toggle {
-    width: 46px; height: 25px; background: rgba(255,255,255,0.1);
-    border-radius: 13px; cursor: pointer; position: relative; transition: background 0.2s; border: none; flex-shrink: 0;
-  }
-  .toggle::after { content:''; position:absolute; top:3px;left:3px; width:19px;height:19px; border-radius:50%; background:#fff; transition:transform 0.2s; }
-  .toggle.on { background: var(--green); }
-  .toggle.on::after { transform: translateX(21px); }
-  .save-msg { text-align: center; font-size: 0.8rem; color: var(--green); margin-top: 8px; height: 18px; }
-
-  /* NOTIF */
   .notif {
-    position: fixed; top: 16px; left: 50%;
-    transform: translateX(-50%) translateY(-130px);
-    background: var(--accent2); color: #fff;
-    padding: 13px 22px; border-radius: 14px;
-    font-weight: 800; font-size: 0.95rem;
-    z-index: 999; transition: transform 0.4s cubic-bezier(.3,1.4,.5,1);
-    text-align: center; max-width: 310px; width: 90%;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    position:fixed; top:16px; left:50%;
+    transform:translateX(-50%) translateY(-130px);
+    background:var(--accent2); color:#fff;
+    padding:13px 22px; border-radius:14px; font-weight:800; font-size:0.95rem;
+    z-index:999; transition:transform 0.4s cubic-bezier(.3,1.4,.5,1);
+    text-align:center; max-width:310px; width:90%; box-shadow:0 8px 32px rgba(0,0,0,0.4);
   }
-  .notif.show { transform: translateX(-50%) translateY(0); }
+  .notif.show { transform:translateX(-50%) translateY(0); }
 
   /* KID MODE */
   .kid-overlay {
-    display: none; position: fixed; inset: 0;
-    background: #0a1520; z-index: 500;
-    flex-direction: column; align-items: center; justify-content: center; padding: 30px;
+    display:none; position:fixed; inset:0; background:#0a1520;
+    z-index:500; flex-direction:column; align-items:center; justify-content:center; padding:30px;
   }
-  .kid-overlay.show { display: flex; }
-  .kid-emoji-row { font-size: 3rem; margin-bottom: 16px; display: flex; gap: 12px; }
-  .kid-emoji-row span { animation: bounce 1s ease infinite; }
-  .kid-emoji-row span:nth-child(2) { animation-delay: 0.15s; }
-  .kid-emoji-row span:nth-child(3) { animation-delay: 0.3s; }
-  .kid-circle { position: relative; width: 280px; height: 280px; margin-bottom: 16px; }
-  .kid-circle svg { transform: rotate(-90deg); width: 280px; height: 280px; }
-  .kid-circle svg circle { fill: none; stroke-width: 18; stroke-linecap: round; }
-  .kid-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .kid-big-timer { font-family: 'Fredoka One', cursive; font-size: 5.5rem; color: var(--text); line-height: 1; }
-  .kid-label { font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--muted); margin-top: 6px; }
-  .hide-kid-btn { margin-top: 18px; padding: 12px 28px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: var(--muted); font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.88rem; cursor: pointer; }
+  .kid-overlay.show { display:flex; }
+  .kid-emoji-row { font-size:3rem; margin-bottom:16px; display:flex; gap:12px; }
+  .kid-emoji-row span { animation:bounce 1s ease infinite; }
+  .kid-emoji-row span:nth-child(2) { animation-delay:0.15s; }
+  .kid-emoji-row span:nth-child(3) { animation-delay:0.3s; }
+  .kid-circle { position:relative; width:280px; height:280px; margin-bottom:16px; }
+  .kid-circle svg { transform:rotate(-90deg); width:280px; height:280px; }
+  .kid-circle svg circle { fill:none; stroke-width:18; stroke-linecap:round; }
+  .kid-inner { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .kid-big-timer { font-family:'Fredoka One',cursive; font-size:5.5rem; color:var(--text); line-height:1; }
+  .kid-sub-label { font-family:'Fredoka One',cursive; font-size:1.6rem; color:var(--muted); margin-top:6px; }
+  .hide-kid-btn { margin-top:18px; padding:12px 28px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:12px; color:var(--muted); font-family:'Nunito',sans-serif; font-weight:700; font-size:0.88rem; cursor:pointer; }
 
-  .family-code-display {
-    background: var(--card2);
-    border-radius: 10px;
-    padding: 10px 14px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.4rem;
-    letter-spacing: 6px;
-    color: var(--accent);
-    text-align: center;
-    margin-bottom: 8px;
+  .loading-spinner {
+    width:20px; height:20px; border:3px solid rgba(255,255,255,0.2);
+    border-top-color:var(--blue); border-radius:50%; animation:spin 0.8s linear infinite; display:inline-block; vertical-align:middle; margin-right:8px;
   }
-  .code-hint { font-size: 0.75rem; color: var(--muted); text-align: center; }
 </style>
 </head>
 <body>
@@ -335,7 +219,7 @@
     </svg>
     <div class="kid-inner">
       <div class="kid-big-timer" id="kidTimerDisplay">00:00</div>
-      <div class="kid-label">left to play!</div>
+      <div class="kid-sub-label">left to play!</div>
     </div>
   </div>
   <button class="hide-kid-btn" onclick="hideKidMode()">👆 Parent View</button>
@@ -345,29 +229,27 @@
 <div id="setupScreen">
   <div class="setup-icon">🎮</div>
   <div class="setup-title">Screen Time Tracker</div>
-  <div class="setup-desc">Enter your family code to connect.<br>Both parents use the same code to share logs.</div>
+  <div class="setup-desc">Enter your family code to connect. Both parents use the same code to share logs in real time.</div>
   <div class="setup-card">
-    <label style="text-align:center;display:block;margin-bottom:10px">Family Code (make one up — 4 to 8 characters)</label>
-    <div class="code-input-wrap">
-      <input class="code-input" type="text" id="codeInput" maxlength="8" placeholder="e.g. 1234" autocomplete="off" autocapitalize="none" spellcheck="false">
-    </div>
+    <label style="text-align:center;display:block;margin-bottom:10px">Family Code (4–8 characters)</label>
+    <input class="code-input" type="text" id="codeInput" maxlength="8" placeholder="e.g. 1234" autocomplete="off" autocapitalize="none" spellcheck="false">
     <label style="text-align:center;display:block;margin-bottom:10px">Who are you?</label>
     <div class="who-row">
       <button class="who-btn" id="whoMom" onclick="selectWho('Mom')">👩 Mom</button>
       <button class="who-btn" id="whoDad" onclick="selectWho('Dad')">👨 Dad</button>
     </div>
-    <button class="btn btn-primary btn-full" onclick="connectFamily()" style="margin-bottom:12px">Connect →</button>
-    <div class="setup-hint">First time? Just pick a code and share it with your spouse. You'll both enter the same one.</div>
+    <button class="btn btn-primary btn-full" onclick="connectFamily()">Connect →</button>
+    <div class="setup-hint">First time? Pick any code and share it with your spouse. You both enter the same one.</div>
   </div>
 </div>
 
-<!-- MAIN APP (hidden until connected) -->
+<!-- MAIN APP -->
 <div id="mainApp" style="display:none">
   <h1>🎮 Screen Time</h1>
   <div class="subtitle">Nintendo Switch Tracker</div>
   <div class="sync-badge">
     <div class="sync-dot" id="syncDot"></div>
-    <span id="syncLabel">Not connected</span>
+    <span id="syncLabel">Connecting…</span>
   </div>
 
   <div class="tabs">
@@ -381,7 +263,6 @@
     <div id="windowAlertCard" style="display:none">
       <div class="window-alert warn" id="windowAlert"></div>
     </div>
-
     <div class="card">
       <div class="card-title">Today's Session</div>
       <div class="status-row">
@@ -408,11 +289,10 @@
       </div>
       <button class="btn btn-purple btn-full" onclick="showKidMode()">👶 Kid View</button>
     </div>
-
     <div class="card">
-      <div class="card-title">Today's Usage</div>
+      <div class="card-title">Today's Total Usage</div>
       <div class="today-used" id="todayUsed">0m</div>
-      <div class="today-of" id="todayOf">of 60 min daily limit</div>
+      <div class="today-of"   id="todayOf">of 60 min daily limit</div>
       <div class="progress-bar-bg"><div class="progress-bar-fill" id="todayBar" style="width:0%"></div></div>
     </div>
   </div>
@@ -421,14 +301,13 @@
   <div class="panel" id="tab-log">
     <div class="card">
       <div class="card-title">This Week</div>
-      <div class="weekly-bar-wrap" id="weeklyBars"></div>
+      <div class="weekly-bar-wrap" id="weeklyBars"><div class="log-empty">Loading…</div></div>
     </div>
     <div class="card">
       <div class="card-title">Session History <span style="color:var(--muted);font-size:0.7rem;font-weight:400;text-transform:none;letter-spacing:0">(all family)</span></div>
-      <div id="logList"><div class="log-empty">No sessions yet.</div></div>
+      <div id="logList"><div class="log-empty">Loading…</div></div>
     </div>
-    <button class="btn btn-ghost btn-full" onclick="syncNow()">🔄 Refresh Log</button>
-    <button class="btn btn-ghost btn-full" style="margin-top:0" onclick="clearLog()">🗑 Clear All History</button>
+    <button class="btn btn-ghost btn-full" style="margin-bottom:8px" onclick="clearLog()">🗑 Clear All History</button>
   </div>
 
   <!-- SETTINGS TAB -->
@@ -438,7 +317,6 @@
       <label>Max screen time per day (minutes)</label>
       <input type="number" id="setLimit" min="5" max="480" value="60">
     </div>
-
     <div class="card">
       <div class="card-title">Allowed Time Window</div>
       <div class="toggle-row">
@@ -447,10 +325,9 @@
       </div>
       <div class="row2">
         <div><label>Start</label><input type="time" id="setWindowStart" value="15:00"></div>
-        <div><label>End</label><input type="time" id="setWindowEnd" value="17:00"></div>
+        <div><label>End</label>  <input type="time" id="setWindowEnd"   value="17:00"></div>
       </div>
     </div>
-
     <div class="card">
       <div class="card-title">Alerts</div>
       <div class="toggle-row">
@@ -462,7 +339,6 @@
         <button class="toggle" id="toggleWarnDone" onclick="toggleSetting('warnDone')"></button>
       </div>
     </div>
-
     <div class="card">
       <div class="card-title">Family Account</div>
       <div class="family-code-display" id="displayCode">----</div>
@@ -471,91 +347,189 @@
         <button class="btn btn-ghost btn-full" onclick="switchAccount()">Switch Account / Change Code</button>
       </div>
     </div>
-
     <button class="btn btn-primary btn-full" onclick="saveSettings()">💾 Save Settings</button>
     <div class="save-msg" id="saveMsg"></div>
   </div>
 </div>
 
-<script>
-// ══════════════════════════════════════════
-//  STORAGE HELPERS  (window.storage = shared cloud)
-// ══════════════════════════════════════════
-const LS_KEY   = 'stt_local_v3';
-const SHARED   = true;   // shorthand for passing to storage
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp }                          from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, get, onValue, remove }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-// Thin wrapper — falls back gracefully if storage unavailable
-async function cloudGet(key) {
-  try { return await window.storage.get(key, SHARED); } catch(e) { return null; }
-}
-async function cloudSet(key, val) {
-  try { return await window.storage.set(key, JSON.stringify(val), SHARED); } catch(e) { return null; }
-}
-async function cloudDel(key) {
-  try { return await window.storage.delete(key, SHARED); } catch(e) { return null; }
-}
+// ── Firebase config ──────────────────────────────────────────
+const firebaseConfig = {
+  apiKey:            "AIzaSyC09Bp48FhDTc_7eWrr_SDmehIIuWg3EnA",
+  authDomain:        "screen-time-tracker-de518.firebaseapp.com",
+  databaseURL:       "https://screen-time-tracker-de518-default-rtdb.firebaseio.com",
+  projectId:         "screen-time-tracker-de518",
+  storageBucket:     "screen-time-tracker-de518.firebasestorage.app",
+  messagingSenderId: "998700320271",
+  appId:             "1:998700320271:web:b0f2271fb617f40348457a"
+};
+const firebaseApp = initializeApp(firebaseConfig);
+const db          = getDatabase(firebaseApp);
 
-// ══════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════
-let local = {            // saved in localStorage (device-specific)
+// ── Local state ───────────────────────────────────────────────
+const LS_KEY = 'stt_local_v4';
+let local = {
   familyCode: '',
   whoAmI: '',
-  settings: {
-    limitMin: 60, windowEnabled: false, windowStart: '15:00', windowEnd: '17:00',
-    warn5: true, warnDone: true
-  }
+  settings: { limitMin:60, windowEnabled:false, windowStart:'15:00', windowEnd:'17:00', warn5:true, warnDone:true }
 };
 
-let sharedData = {       // from cloud
-  sessions: [],          // [{id, date, startTs, endTs, durSec, who}]
-  today: { date: '', usedSec: 0 }
-};
+// Shared data (from Firebase)
+let sessions  = [];   // array of session objects
+let todayUsed = 0;    // seconds used today (from Firebase)
+let unsubscribe = null;
 
 // Timer runtime
-let timerInterval  = null;
-let sessionStart   = null;
-let sessionPaused  = false;
-let sessionElapsed = 0;
-let warned5 = false;
-let warnedDone = false;
+let timerInterval   = null;
+let sessionStart    = null;   // Date.now() when last started/resumed
+let pausedElapsed   = 0;      // seconds accumulated before current run
+let sessionPaused   = false;
+let warned5         = false;
+let warnedDone      = false;
+let selectedWho     = '';
 
-// ══════════════════════════════════════════
-//  SETUP / AUTH
-// ══════════════════════════════════════════
-let selectedWho = '';
+// ── Helpers ───────────────────────────────────────────────────
+function todayStr() { return new Date().toISOString().slice(0,10); }
 
+function fmtMMSS(sec) {
+  sec = Math.max(0, Math.floor(sec));
+  return String(Math.floor(sec/60)).padStart(2,'0') + ':' + String(sec%60).padStart(2,'0');
+}
+function fmtMinSec(sec) {
+  sec = Math.floor(sec);
+  if (sec < 60) return sec + 's';
+  const m = Math.floor(sec/60), s = sec%60;
+  return s ? `${m}m ${s}s` : `${m}m`;
+}
+function fmtHMS(sec) {
+  const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60);
+  return h > 0 ? `${h}h ${m}m` : `${m}m`;
+}
+function fmt12(t) {
+  const [h,m] = t.split(':').map(Number);
+  return `${h%12||12}:${String(m).padStart(2,'0')} ${h>=12?'PM':'AM'}`;
+}
+function isOverLimit() { return todayUsed >= local.settings.limitMin * 60; }
+
+function elapsedSec() {
+  if (!sessionStart) return pausedElapsed;
+  return pausedElapsed + Math.floor((Date.now() - sessionStart) / 1000);
+}
+
+// ── Firebase paths ────────────────────────────────────────────
+function fbPath(sub) { return `families/${local.familyCode.toUpperCase()}/${sub}`; }
+
+// ── Sync status ───────────────────────────────────────────────
+function setSyncStatus(s, extra) {
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncLabel');
+  if (s === 'ok') {
+    dot.className = 'sync-dot synced';
+    lbl.textContent = `Live sync on · Code: ${local.familyCode.toUpperCase()}`;
+  } else if (s === 'syncing') {
+    dot.className = 'sync-dot syncing';
+    lbl.textContent = 'Connecting…';
+  } else {
+    dot.className = 'sync-dot error';
+    lbl.textContent = extra || 'Sync error';
+  }
+}
+
+// ── Firebase: subscribe to live updates ──────────────────────
+function subscribeFirebase() {
+  if (unsubscribe) unsubscribe();
+  setSyncStatus('syncing');
+
+  const sessRef  = ref(db, fbPath('sessions'));
+  const todayRef = ref(db, fbPath(`daily/${todayStr()}`));
+
+  // Live listener for sessions
+  unsubscribe = onValue(sessRef, snap => {
+    const data = snap.val();
+    sessions = data ? Object.values(data).sort((a,b) => b.startTs.localeCompare(a.startTs)) : [];
+    renderLog();
+    setSyncStatus('ok');
+  }, err => {
+    setSyncStatus('error', 'Sync error — check connection');
+  });
+
+  // Live listener for today's total
+  onValue(todayRef, snap => {
+    const data = snap.val();
+    todayUsed = (data && data.usedSec) ? data.usedSec : 0;
+    renderTodayCard();
+  });
+}
+
+// ── Firebase: push a completed session ───────────────────────
+async function pushSession(session) {
+  try {
+    // Save session record
+    await set(ref(db, fbPath(`sessions/${session.id}`)), session);
+
+    // Update today's total (add this session's duration)
+    const todayRef = ref(db, fbPath(`daily/${todayStr()}`));
+    const snap     = await get(todayRef);
+    const existing = snap.val() ? snap.val().usedSec : 0;
+    await set(todayRef, { date: todayStr(), usedSec: existing + session.durSec });
+  } catch(e) {
+    showNotif('⚠️ Could not save to cloud — check connection');
+  }
+}
+
+// ── Firebase: clear all data ─────────────────────────────────
+async function clearLog() {
+  if (!confirm('Clear ALL shared history for this family? Both phones will lose the log.')) return;
+  try {
+    await remove(ref(db, fbPath('sessions')));
+    await remove(ref(db, fbPath('daily')));
+    sessions  = [];
+    todayUsed = 0;
+    renderLog();
+    renderTodayCard();
+    showNotif('🗑 History cleared');
+  } catch(e) {
+    showNotif('⚠️ Could not clear — try again');
+  }
+}
+window.clearLog = clearLog;
+
+// ── Setup / auth ──────────────────────────────────────────────
 function selectWho(who) {
   selectedWho = who;
   document.getElementById('whoMom').classList.toggle('selected', who === 'Mom');
   document.getElementById('whoDad').classList.toggle('selected', who === 'Dad');
 }
+window.selectWho = selectWho;
 
-async function connectFamily() {
+function connectFamily() {
   const code = document.getElementById('codeInput').value.trim().toUpperCase();
   if (!code || code.length < 4) { showNotif('⚠️ Enter at least 4 characters'); return; }
   if (!selectedWho)              { showNotif('⚠️ Select Mom or Dad'); return; }
-
   local.familyCode = code;
   local.whoAmI     = selectedWho;
   saveLocal();
-
   showApp();
-  await syncNow();
 }
+window.connectFamily = connectFamily;
 
 function showApp() {
   document.getElementById('setupScreen').style.display = 'none';
   document.getElementById('mainApp').style.display     = 'block';
-  document.getElementById('displayCode').textContent   = local.familyCode;
-  document.getElementById('displayWho').textContent    = `Logged in as ${local.whoAmI}`;
   renderSettings();
   renderTodayCard();
+  subscribeFirebase();
 }
 
 function switchAccount() {
-  if (!confirm('Switch account? Your current settings will be saved.')) return;
+  if (!confirm('Switch account?')) return;
   stopTimerSilent();
+  if (unsubscribe) unsubscribe();
   local.familyCode = '';
   local.whoAmI     = '';
   saveLocal();
@@ -566,177 +540,95 @@ function switchAccount() {
   document.getElementById('whoMom').classList.remove('selected');
   document.getElementById('whoDad').classList.remove('selected');
 }
+window.switchAccount = switchAccount;
 
-// ══════════════════════════════════════════
-//  CLOUD SYNC
-// ══════════════════════════════════════════
-function cloudKey()      { return `stt:${local.familyCode}:sessions`; }
-function cloudTodayKey() { return `stt:${local.familyCode}:today`; }
-
-function setSyncStatus(s) {
-  const dot   = document.getElementById('syncDot');
-  const label = document.getElementById('syncLabel');
-  if (s === 'syncing') { dot.className='sync-dot syncing'; label.textContent='Syncing…'; }
-  else if (s === 'ok') { dot.className='sync-dot synced';  label.textContent=`Synced · Family Code: ${local.familyCode}`; }
-  else                 { dot.className='sync-dot error';   label.textContent='Sync error — working offline'; }
-}
-
-async function syncNow() {
-  if (!local.familyCode) return;
-  setSyncStatus('syncing');
-  try {
-    // Pull sessions
-    const sr = await cloudGet(cloudKey());
-    if (sr && sr.value) {
-      const remote = JSON.parse(sr.value);
-      sharedData.sessions = remote;
-    }
-    // Pull today
-    const tr = await cloudGet(cloudTodayKey());
-    if (tr && tr.value) {
-      const remToday = JSON.parse(tr.value);
-      if (remToday.date === todayStr()) {
-        sharedData.today = remToday;
-      } else {
-        sharedData.today = { date: todayStr(), usedSec: 0 };
-      }
-    }
-    setSyncStatus('ok');
-    renderTodayCard();
-    renderLog();
-  } catch(e) {
-    setSyncStatus('error');
-  }
-}
-
-async function pushSession(session) {
-  setSyncStatus('syncing');
-  try {
-    // Re-pull first to avoid stomping
-    const sr = await cloudGet(cloudKey());
-    let sessions = [];
-    if (sr && sr.value) sessions = JSON.parse(sr.value);
-    // Deduplicate by id
-    const existing = sessions.find(s => s.id === session.id);
-    if (!existing) sessions.unshift(session);
-    // Keep 180 sessions max
-    sessions = sessions.slice(0, 180);
-    sharedData.sessions = sessions;
-    await cloudSet(cloudKey(), sessions);
-
-    // Push today
-    const tr = await cloudGet(cloudTodayKey());
-    let today = { date: todayStr(), usedSec: 0 };
-    if (tr && tr.value) {
-      const t = JSON.parse(tr.value);
-      if (t.date === todayStr()) today = t;
-    }
-    today.usedSec = (today.usedSec || 0) + session.durSec;
-    sharedData.today = today;
-    await cloudSet(cloudTodayKey(), today);
-
-    setSyncStatus('ok');
-    renderLog();
-    renderTodayCard();
-  } catch(e) {
-    setSyncStatus('error');
-    // Keep locally anyway
-    sharedData.sessions.unshift(session);
-    sharedData.today.usedSec = (sharedData.today.usedSec || 0) + session.durSec;
-  }
-}
-
-async function clearLog() {
-  if (!confirm('Clear ALL shared history for this family? Both phones will lose the log.')) return;
-  try {
-    await cloudSet(cloudKey(), []);
-    await cloudSet(cloudTodayKey(), { date: todayStr(), usedSec: 0 });
-    sharedData.sessions = [];
-    sharedData.today    = { date: todayStr(), usedSec: 0 };
-    renderLog();
-    renderTodayCard();
-    showNotif('🗑 History cleared');
-  } catch(e) { showNotif('⚠️ Could not clear — try again'); }
-}
-
-// ══════════════════════════════════════════
-//  TIMER
-// ══════════════════════════════════════════
+// ── Timer ─────────────────────────────────────────────────────
 function startTimer() {
   if (!checkWindow()) return;
   if (isOverLimit()) { showNotif('⛔ Daily limit already reached!'); return; }
+  pausedElapsed  = 0;
   sessionStart   = Date.now();
   sessionPaused  = false;
-  sessionElapsed = 0;
   warned5        = false;
   warnedDone     = false;
-  timerInterval  = setInterval(tick, 1000);
+  timerInterval  = setInterval(tick, 500); // 500ms for accuracy
   setStatus('running');
   document.getElementById('btnStart').disabled = true;
   document.getElementById('btnPause').disabled = false;
   document.getElementById('btnStop').disabled  = false;
 }
+window.startTimer = startTimer;
 
 function pauseTimer() {
   if (sessionPaused) {
-    sessionStart  = Date.now() - sessionElapsed * 1000;
+    // Resume: keep accumulated elapsed, restart clock
+    sessionStart  = Date.now();
     sessionPaused = false;
-    timerInterval = setInterval(tick, 1000);
+    timerInterval = setInterval(tick, 500);
     document.getElementById('btnPause').textContent = '⏸ Pause';
     setStatus('running');
   } else {
-    sessionPaused = true;
+    // Pause: snapshot elapsed, stop clock
+    pausedElapsed  = elapsedSec();
+    sessionStart   = null;
+    sessionPaused  = true;
     clearInterval(timerInterval);
     document.getElementById('btnPause').textContent = '▶ Resume';
     setStatus('paused');
   }
 }
+window.pauseTimer = pauseTimer;
 
 function stopTimer() {
   clearInterval(timerInterval);
   timerInterval = null;
-  const dur = sessionElapsed;
-  if (dur > 3) {
+
+  const dur = elapsedSec();
+
+  if (dur > 2) {
+    const startTime = new Date(Date.now() - dur * 1000);
     const session = {
-      id:      Date.now().toString(),
+      id:      `${local.familyCode}-${Date.now()}`,
       date:    todayStr(),
-      startTs: new Date(sessionStart).toISOString(),
+      startTs: startTime.toISOString(),
       endTs:   new Date().toISOString(),
       durSec:  dur,
       who:     local.whoAmI || 'Parent'
     };
     pushSession(session);
   }
-  sessionElapsed = 0;
+
+  pausedElapsed  = 0;
   sessionStart   = null;
   sessionPaused  = false;
+
   setStatus('idle');
   document.getElementById('btnStart').disabled  = false;
   document.getElementById('btnPause').disabled  = true;
   document.getElementById('btnStop').disabled   = true;
   document.getElementById('btnPause').textContent = '⏸ Pause';
-  const limitSec = local.settings.limitMin * 60;
-  updateTimerDisplay(Math.max(0, limitSec - (sharedData.today.usedSec || 0)), limitSec);
+  updateTimerDisplay(Math.max(0, local.settings.limitMin * 60 - todayUsed), local.settings.limitMin * 60);
 }
+window.stopTimer = stopTimer;
 
 function stopTimerSilent() {
   clearInterval(timerInterval);
   timerInterval  = null;
-  sessionElapsed = 0;
+  pausedElapsed  = 0;
   sessionStart   = null;
   sessionPaused  = false;
 }
 
 function tick() {
-  sessionElapsed = Math.floor((Date.now() - sessionStart) / 1000);
-  const limitSec     = local.settings.limitMin * 60;
-  const totalUsedSec = (sharedData.today.usedSec || 0) + sessionElapsed;
-  const remaining    = Math.max(0, limitSec - totalUsedSec);
+  const elapsed   = elapsedSec();
+  const limitSec  = local.settings.limitMin * 60;
+  const totalUsed = todayUsed + elapsed;
+  const remaining = Math.max(0, limitSec - totalUsed);
 
   updateTimerDisplay(remaining, limitSec);
   updateKidDisplay(remaining, limitSec);
-  document.getElementById('todayUsed').textContent = fmtMinSec(totalUsedSec);
-  updateTodayBar(totalUsedSec, limitSec);
+  document.getElementById('todayUsed').textContent = fmtMinSec(totalUsed);
+  updateTodayBar(totalUsed, limitSec);
 
   if (!warned5 && remaining <= 300 && remaining > 0 && local.settings.warn5) {
     warned5 = true;
@@ -749,65 +641,60 @@ function tick() {
   }
 }
 
+// ── Display updates ───────────────────────────────────────────
 function updateTimerDisplay(rem, lim) {
   document.getElementById('timerDisplay').textContent = fmtMMSS(rem);
   const arc  = document.getElementById('timerArc');
-  const circ = 565;
   const pct  = lim > 0 ? rem / lim : 0;
-  arc.style.strokeDashoffset = circ * (1 - pct);
+  arc.style.strokeDashoffset = 565 * (1 - pct);
   arc.style.stroke = rem <= 300 ? 'var(--accent2)' : rem <= 600 ? 'var(--accent)' : 'var(--green)';
   document.getElementById('timerEmoji').textContent = rem <= 300 ? '😬' : '🎮';
 }
 
 function updateKidDisplay(rem, lim) {
   document.getElementById('kidTimerDisplay').textContent = fmtMMSS(rem);
-  const arc  = document.getElementById('kidArc');
-  const circ = 754;
-  const pct  = lim > 0 ? rem / lim : 0;
-  arc.style.strokeDashoffset = circ * (1 - pct);
+  const arc = document.getElementById('kidArc');
+  arc.style.strokeDashoffset = 754 * (1 - (lim > 0 ? rem/lim : 0));
   arc.style.stroke = rem <= 300 ? 'var(--accent2)' : 'var(--green)';
-  const stressed = rem <= 300;
-  document.getElementById('kidE1').textContent = stressed ? '😬' : '🎮';
-  document.getElementById('kidE3').textContent = stressed ? '😬' : '🎮';
+  const s = rem <= 300;
+  document.getElementById('kidE1').textContent = s ? '😬' : '🎮';
+  document.getElementById('kidE3').textContent = s ? '😬' : '🎮';
 }
 
-// ══════════════════════════════════════════
-//  RENDER
-// ══════════════════════════════════════════
 function renderTodayCard() {
   const limitSec = local.settings.limitMin * 60;
-  const usedSec  = sharedData.today.date === todayStr() ? (sharedData.today.usedSec || 0) : 0;
-  document.getElementById('todayUsed').textContent = fmtMinSec(usedSec);
+  const used     = timerInterval ? todayUsed + elapsedSec() : todayUsed;
+  document.getElementById('todayUsed').textContent = fmtMinSec(used);
   document.getElementById('todayOf').textContent   = `of ${local.settings.limitMin} min daily limit`;
-  updateTodayBar(usedSec, limitSec);
-  updateTimerDisplay(Math.max(0, limitSec - usedSec), limitSec);
+  updateTodayBar(used, limitSec);
+  if (!timerInterval) updateTimerDisplay(Math.max(0, limitSec - used), limitSec);
 }
 
 function updateTodayBar(used, lim) {
-  const pct = Math.min(100, lim > 0 ? (used / lim) * 100 : 0);
+  const pct = Math.min(100, lim > 0 ? (used/lim)*100 : 0);
   const bar  = document.getElementById('todayBar');
   bar.style.width = pct + '%';
-  bar.style.background = pct >= 100 ? 'var(--accent2)' : pct >= 80
-    ? 'linear-gradient(90deg,var(--accent),var(--accent2))'
-    : 'linear-gradient(90deg,var(--blue),var(--green))';
+  bar.style.background = pct >= 100
+    ? 'var(--accent2)'
+    : pct >= 80
+      ? 'linear-gradient(90deg,var(--accent),var(--accent2))'
+      : 'linear-gradient(90deg,var(--blue),var(--green))';
 }
 
 function renderLog() {
-  // Session list
+  // Sessions list
   const list = document.getElementById('logList');
-  const sess = sharedData.sessions || [];
-  if (!sess.length) {
+  if (!sessions.length) {
     list.innerHTML = '<div class="log-empty">No sessions yet. Start a timer!</div>';
   } else {
-    list.innerHTML = sess.slice(0, 40).map(s => {
+    list.innerHTML = sessions.slice(0,50).map(s => {
       const d   = new Date(s.startTs);
       const day = d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
       const t   = d.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
       const who = s.who || 'Parent';
-      const tagClass = who === 'Mom' ? 'mom' : 'dad';
       return `<div class="log-entry">
         <div>
-          <div style="font-weight:700;font-size:0.88rem">${day} <span class="who-tag ${tagClass}">${who}</span></div>
+          <div style="font-weight:700;font-size:0.88rem">${day} <span class="who-tag ${who==='Mom'?'mom':'dad'}">${who}</span></div>
           <div class="log-date">${t}</div>
         </div>
         <div class="log-dur">${fmtHMS(s.durSec)}</div>
@@ -816,26 +703,23 @@ function renderLog() {
   }
 
   // Weekly bars
-  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const now  = new Date();
+  const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const now = new Date();
   const week = [];
   for (let i = 6; i >= 0; i--) {
-    const d = new Date(now); d.setDate(d.getDate() - i);
-    week.push({ label: days[d.getDay()], date: d.toISOString().slice(0,10) });
+    const d = new Date(now); d.setDate(d.getDate()-i);
+    week.push({ label: dayNames[d.getDay()], date: d.toISOString().slice(0,10) });
   }
   const byDate = {};
-  sess.forEach(s => {
-    const d = s.date || s.startTs?.slice(0,10);
-    byDate[d] = (byDate[d] || 0) + s.durSec;
-  });
+  sessions.forEach(s => { byDate[s.date] = (byDate[s.date]||0) + s.durSec; });
   const td = todayStr();
-  byDate[td] = Math.max(byDate[td] || 0, sharedData.today.usedSec || 0);
+  byDate[td] = Math.max(byDate[td]||0, todayUsed + (timerInterval ? elapsedSec() : 0));
   const limitSec = local.settings.limitMin * 60;
-  const maxSec   = Math.max(...week.map(w => byDate[w.date] || 0), limitSec, 1);
+  const maxSec   = Math.max(...week.map(w => byDate[w.date]||0), limitSec, 1);
 
   document.getElementById('weeklyBars').innerHTML = week.map(w => {
     const sec = byDate[w.date] || 0;
-    const pct = (sec / maxSec) * 100;
+    const pct = (sec/maxSec)*100;
     const isToday = w.date === td;
     return `<div class="bar-row">
       <div class="bar-day" style="${isToday?'color:var(--accent)':''}">${w.label}</div>
@@ -845,9 +729,7 @@ function renderLog() {
   }).join('');
 }
 
-// ══════════════════════════════════════════
-//  SETTINGS
-// ══════════════════════════════════════════
+// ── Settings ──────────────────────────────────────────────────
 function renderSettings() {
   const s = local.settings;
   document.getElementById('setLimit').value       = s.limitMin;
@@ -856,7 +738,7 @@ function renderSettings() {
   setToggle('toggleWindow',  s.windowEnabled);
   setToggle('toggleWarn5',   s.warn5);
   setToggle('toggleWarnDone',s.warnDone);
-  document.getElementById('displayCode').textContent = local.familyCode || '----';
+  document.getElementById('displayCode').textContent = (local.familyCode||'----').toUpperCase();
   document.getElementById('displayWho').textContent  = local.whoAmI ? `Logged in as ${local.whoAmI}` : '';
 }
 
@@ -867,6 +749,7 @@ function toggleSetting(key) {
   saveLocal();
   renderSettings();
 }
+window.toggleSetting = toggleSetting;
 
 function saveSettings() {
   local.settings.limitMin    = parseInt(document.getElementById('setLimit').value) || 60;
@@ -879,85 +762,68 @@ function saveSettings() {
   msg.style.opacity = 1;
   setTimeout(() => { msg.style.opacity = 0; }, 2000);
 }
+window.saveSettings = saveSettings;
 
-// ══════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════
-function todayStr() { return new Date().toISOString().slice(0,10); }
-
-function fmtMMSS(sec) {
-  sec = Math.max(0, Math.floor(sec));
-  return `${Math.floor(sec/60).toString().padStart(2,'0')}:${(sec%60).toString().padStart(2,'0')}`;
-}
-function fmtMinSec(sec) {
-  sec = Math.floor(sec);
-  if (sec < 60) return `${sec}s`;
-  const m = Math.floor(sec/60), s = sec%60;
-  return s ? `${m}m ${s}s` : `${m}m`;
-}
-function fmtHMS(sec) {
-  const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60);
-  return h > 0 ? `${h}h ${m}m` : `${m}m`;
-}
-
-function isOverLimit() {
-  return (sharedData.today.usedSec || 0) >= local.settings.limitMin * 60;
-}
-
+// ── Window check ──────────────────────────────────────────────
 function checkWindow() {
   const s = local.settings;
   if (!s.windowEnabled) { hideWindowAlert(); return true; }
-  const now  = new Date();
-  const cur  = now.getHours()*60 + now.getMinutes();
+  const now = new Date();
+  const cur = now.getHours()*60 + now.getMinutes();
   const [sh,sm] = s.windowStart.split(':').map(Number);
   const [eh,em] = s.windowEnd.split(':').map(Number);
   if (cur >= sh*60+sm && cur < eh*60+em) { hideWindowAlert(); return true; }
   showWindowAlert(s.windowStart, s.windowEnd);
   return false;
 }
-
-function showWindowAlert(st, en) {
+function showWindowAlert(st,en) {
   const el = document.getElementById('windowAlert');
   el.textContent = `⛔ Only allowed between ${fmt12(st)} – ${fmt12(en)}.`;
   document.getElementById('windowAlertCard').style.display = 'block';
   el.style.display = 'block';
 }
-function hideWindowAlert() { document.getElementById('windowAlertCard').style.display = 'none'; }
+function hideWindowAlert() { document.getElementById('windowAlertCard').style.display='none'; }
 
-function fmt12(t) {
-  const [h,m] = t.split(':').map(Number);
-  return `${h%12||12}:${m.toString().padStart(2,'0')} ${h>=12?'PM':'AM'}`;
-}
-
-function setStatus(s) {
-  document.getElementById('statusDot').className  = `status-dot${s==='running'?' running':s==='paused'?' paused':''}`;
-  document.getElementById('statusText').textContent = s==='running'?'Playing now…':s==='paused'?'Paused':'Ready to start';
-}
-
-let notifTimeout = null;
+// ── Notifications ─────────────────────────────────────────────
+let notifTO = null;
 function showNotif(msg) {
   const el = document.getElementById('notif');
   el.textContent = msg;
   el.classList.add('show');
-  clearTimeout(notifTimeout);
-  notifTimeout = setTimeout(() => el.classList.remove('show'), 4000);
+  clearTimeout(notifTO);
+  notifTO = setTimeout(() => el.classList.remove('show'), 4000);
   if (navigator.vibrate) navigator.vibrate([200,100,200]);
 }
 
+// ── Status dot ────────────────────────────────────────────────
+function setStatus(s) {
+  const cls = s==='running'?' running':s==='paused'?' paused':'';
+  document.getElementById('statusDot').className  = 'status-dot' + cls;
+  document.getElementById('statusText').textContent = s==='running'?'Playing now…':s==='paused'?'Paused':'Ready to start';
+}
+
+// ── Kid Mode ──────────────────────────────────────────────────
 function showKidMode() {
   document.getElementById('kidOverlay').classList.add('show');
   const lim = local.settings.limitMin * 60;
-  const used = (sharedData.today.usedSec||0) + sessionElapsed;
-  updateKidDisplay(Math.max(0,lim-used), lim);
+  updateKidDisplay(Math.max(0, lim - todayUsed - elapsedSec()), lim);
 }
 function hideKidMode() { document.getElementById('kidOverlay').classList.remove('show'); }
+window.showKidMode = showKidMode;
+window.hideKidMode = hideKidMode;
 
-// ══════════════════════════════════════════
-//  LOCAL STORAGE
-// ══════════════════════════════════════════
-function saveLocal() {
-  localStorage.setItem(LS_KEY, JSON.stringify(local));
+// ── Tabs ──────────────────────────────────────────────────────
+function showTab(name, e) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if (e && e.target) e.target.classList.add('active');
+  if (name === 'settings') renderSettings();
 }
+window.showTab = showTab;
+
+// ── Local storage ─────────────────────────────────────────────
+function saveLocal() { localStorage.setItem(LS_KEY, JSON.stringify(local)); }
 function loadLocal() {
   try {
     const d = JSON.parse(localStorage.getItem(LS_KEY));
@@ -969,39 +835,17 @@ function loadLocal() {
   } catch(e) {}
 }
 
-// ══════════════════════════════════════════
-//  TABS
-// ══════════════════════════════════════════
-function showTab(name, e) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-'+name).classList.add('active');
-  if (e && e.target) e.target.classList.add('active');
-  if (name === 'log') { syncNow(); }
-  if (name === 'settings') renderSettings();
-}
-
-// ══════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════
+// ── Init ──────────────────────────────────────────────────────
 loadLocal();
-
 if (local.familyCode && local.whoAmI) {
   showApp();
-  syncNow();
 } else {
   document.getElementById('setupScreen').style.display = 'flex';
 }
 
-// Auto-sync every 90 seconds while app is open
-setInterval(() => {
-  if (local.familyCode && !timerInterval) syncNow();
-}, 90000);
-
-// Window check every minute
-setInterval(() => {
-  if (!timerInterval) checkWindow();
-}, 60000);
+// Refresh today bar every 30s even when timer is idle
+setInterval(() => { if (!timerInterval) renderTodayCard(); }, 30000);
+setInterval(() => { if (!timerInterval) checkWindow(); }, 60000);
 </script>
 </body>
 </html>
